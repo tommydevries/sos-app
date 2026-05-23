@@ -1,6 +1,6 @@
 import type { SkillTree, QuestCompletion, Quest } from '../types';
 import { SKILL_TREE_META } from '../types';
-import { getRank, getNextRank, getRankProgress, RANKS, getTreeLevel, getTreeLevelProgress, TREE_LEVELS } from '../data/ranks';
+import { getRank, getNextRank, RANKS, getTreeLevel, getTreeLevelProgress, TREE_LEVELS } from '../data/ranks';
 import XPBar from '../components/XPBar';
 
 interface ProgressProps {
