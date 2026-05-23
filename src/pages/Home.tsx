@@ -32,6 +32,8 @@ export default function Home({
     return 'Good evening';
   };
 
+  const isFirstDay = totalXp === 0 && !launchDoneToday;
+
   return (
     <div className="px-4 py-6 space-y-6 max-w-lg mx-auto">
       {/* Greeting */}
@@ -39,6 +41,22 @@ export default function Home({
         <p className="text-sm text-gray-400">{greeting()}</p>
         <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
       </div>
+
+      {/* First-day welcome card */}
+      {isFirstDay && (
+        <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 animate-pop-in">
+          <p className="font-bold text-amber-900 mb-1">👋 Welcome to SOS!</p>
+          <p className="text-sm text-amber-800 mb-3">
+            Every day has 3 missions: do your <strong>Morning Launch</strong>, complete some <strong>Quests</strong>, then <strong>Debrief</strong> at the end of the day. Start right here ↓
+          </p>
+          <button
+            onClick={() => onNavigate('launch')}
+            className="w-full py-3 bg-amber-500 text-white rounded-xl font-semibold text-base active:scale-95 transition-all"
+          >
+            🚀 Start Morning Launch
+          </button>
+        </div>
+      )}
 
       {/* Rank + XP */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 animate-slide-up">
@@ -72,15 +90,15 @@ export default function Home({
           <button
             onClick={() => onNavigate('launch')}
             className={`w-full flex items-center gap-3 p-3 rounded-xl transition-colors ${
-              launchDoneToday ? 'bg-green-50' : 'bg-amber-50'
+              launchDoneToday ? 'bg-green-50' : 'bg-amber-400'
             }`}
           >
             <span className="text-xl">{launchDoneToday ? '✅' : '🚀'}</span>
-            <span className={`text-sm font-medium ${launchDoneToday ? 'text-green-700' : 'text-amber-700'}`}>
-              {launchDoneToday ? 'Morning Launch complete!' : 'Morning Launch waiting...'}
+            <span className={`text-sm font-semibold ${launchDoneToday ? 'text-green-700' : 'text-white'}`}>
+              {launchDoneToday ? 'Morning Launch complete!' : 'Morning Launch — tap to start!'}
             </span>
             {!launchDoneToday && (
-              <span className="ml-auto text-xs font-bold text-amber-600">+50 XP</span>
+              <span className="ml-auto text-xs font-bold text-amber-100">+50 XP</span>
             )}
           </button>
 

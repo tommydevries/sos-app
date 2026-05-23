@@ -14,7 +14,14 @@ export default function App() {
   const store = useStore();
 
   if (!store.state.profile) {
-    return <Setup onComplete={store.setProfile} />;
+    return (
+      <Setup
+        onComplete={profile => {
+          store.setProfile(profile);
+          setCurrentTab('launch');
+        }}
+      />
+    );
   }
 
   const todayLaunch = store.getTodayLaunch();
