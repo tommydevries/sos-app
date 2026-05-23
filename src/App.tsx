@@ -3,6 +3,7 @@ import { useStore } from './store/useStore';
 import Layout from './components/Layout';
 import type { Tab } from './components/Layout';
 import Setup from './pages/Setup';
+import Walkthrough from './components/Walkthrough';
 import Home from './pages/Home';
 import MorningLaunch from './pages/MorningLaunch';
 import Quests from './pages/Quests';
@@ -11,6 +12,7 @@ import Debrief from './pages/Debrief';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<Tab>('home');
+  const [showWalkthrough, setShowWalkthrough] = useState(false);
   const store = useStore();
 
   if (!store.state.profile) {
@@ -18,6 +20,18 @@ export default function App() {
       <Setup
         onComplete={profile => {
           store.setProfile(profile);
+          setShowWalkthrough(true);
+        }}
+      />
+    );
+  }
+
+  if (showWalkthrough) {
+    return (
+      <Walkthrough
+        name={store.state.profile.name}
+        onComplete={() => {
+          setShowWalkthrough(false);
           setCurrentTab('launch');
         }}
       />
