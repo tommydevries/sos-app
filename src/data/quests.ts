@@ -1,0 +1,73 @@
+import type { Quest } from '../types';
+
+export const QUESTS: Quest[] = [
+  // ── CREATE ──────────────────────────────────────────────
+  { id: 'c1',  tree: 'create', tier: 1, xp: 25,  name: 'Kitchen Creator',  description: 'Make a snack you\'ve never made before' },
+  { id: 'c2',  tree: 'create', tier: 1, xp: 25,  name: 'Sketch It',        description: 'Draw something you can see from where you\'re sitting' },
+  { id: 'c3',  tree: 'create', tier: 1, xp: 25,  name: 'Sound Check',      description: 'Make music with whatever you can find' },
+  { id: 'c4',  tree: 'create', tier: 2, xp: 50,  name: 'Story Starter',    description: 'Write the first page of a story' },
+  { id: 'c5',  tree: 'create', tier: 2, xp: 50,  name: 'Fort Builder',     description: 'Build a fort or shelter using only what you can find' },
+  { id: 'c6',  tree: 'create', tier: 2, xp: 50,  name: 'Inventor',         description: 'Design a solution to a problem in your house' },
+  { id: 'c7',  tree: 'create', tier: 2, xp: 50,  name: "Chef's Table",     description: 'Plan and cook a full meal for your family' },
+  { id: 'c8',  tree: 'create', tier: 2, xp: 50,  name: 'The Remix',        description: 'Take something old or broken and turn it into something new' },
+  { id: 'c9',  tree: 'create', tier: 3, xp: 100, name: 'Short Film',       description: 'Write, film, and edit a short video (under 3 minutes)' },
+  { id: 'c10', tree: 'create', tier: 3, xp: 100, name: 'Build Project',    description: 'Build something with real tools that takes more than one day' },
+  { id: 'c11', tree: 'create', tier: 3, xp: 100, name: 'Teach a Class',    description: 'Teach someone a skill you know. Plan it like a real lesson.' },
+  { id: 'c12', tree: 'create', tier: 3, xp: 100, name: 'Gallery Show',     description: 'Create 5+ pieces of art and display them for your family' },
+
+  // ── MOVE ────────────────────────────────────────────────
+  { id: 'm1',  tree: 'move', tier: 1, xp: 25,  name: 'Stretch It Out',    description: 'Do a full 10-minute stretch routine' },
+  { id: 'm2',  tree: 'move', tier: 1, xp: 25,  name: 'Water Run',         description: 'Swim, splash, or play in water for 30+ minutes' },
+  { id: 'm3',  tree: 'move', tier: 1, xp: 25,  name: 'Beat Your Best',    description: 'Pick any exercise and beat your personal record' },
+  { id: 'm4',  tree: 'move', tier: 2, xp: 50,  name: 'New Trick',         description: 'Learn a physical skill you can\'t do yet (cartwheel, juggle, etc.)' },
+  { id: 'm5',  tree: 'move', tier: 2, xp: 50,  name: 'Trail Run',         description: 'Run, bike, or hike a trail you haven\'t done before' },
+  { id: 'm6',  tree: 'move', tier: 2, xp: 50,  name: 'Pickup Game',       description: 'Organize a game with 3+ people' },
+  { id: 'm7',  tree: 'move', tier: 2, xp: 50,  name: 'Coach Up',          description: 'Teach a younger kid a sport or physical skill' },
+  { id: 'm8',  tree: 'move', tier: 2, xp: 50,  name: 'Family Challenge',  description: 'Challenge a family member to a physical contest' },
+  { id: 'm9',  tree: 'move', tier: 3, xp: 100, name: 'The Long Haul',     description: 'Complete a physical challenge that takes real endurance' },
+  { id: 'm10', tree: 'move', tier: 3, xp: 100, name: '7-Day Streak',      description: 'Do a specific exercise every day for 7 straight days' },
+  { id: 'm11', tree: 'move', tier: 3, xp: 100, name: 'Tournament',        description: 'Organize a multi-round competition with scoring' },
+  { id: 'm12', tree: 'move', tier: 3, xp: 100, name: 'Adventure Race',    description: 'Design and run an obstacle course' },
+
+  // ── GROW ────────────────────────────────────────────────
+  { id: 'g1',  tree: 'grow', tier: 1, xp: 25,  name: 'Page Turner',       description: 'Read for 30 minutes straight' },
+  { id: 'g2',  tree: 'grow', tier: 1, xp: 25,  name: 'Word Collector',    description: 'Find and learn 5 words you didn\'t know' },
+  { id: 'g3',  tree: 'grow', tier: 1, xp: 25,  name: 'Question Hunter',   description: 'Ask an adult 3 questions about their job or life' },
+  { id: 'g4',  tree: 'grow', tier: 2, xp: 50,  name: 'Skill Builder',     description: 'Spend 30 minutes practicing a skill you\'re learning' },
+  { id: 'g5',  tree: 'grow', tier: 2, xp: 50,  name: 'Deep Dive',         description: 'Pick a topic and learn everything you can in one hour' },
+  { id: 'g6',  tree: 'grow', tier: 2, xp: 50,  name: 'Money Smarts',      description: 'Learn something about how money works' },
+  { id: 'g7',  tree: 'grow', tier: 2, xp: 50,  name: 'Language Quest',    description: 'Practice a second language for 30+ minutes' },
+  { id: 'g8',  tree: 'grow', tier: 2, xp: 50,  name: 'Fix It',            description: 'Figure out how to repair something that\'s broken' },
+  { id: 'g9',  tree: 'grow', tier: 3, xp: 100, name: 'Book Finisher',     description: 'Finish an entire book and tell someone what it was about' },
+  { id: 'g10', tree: 'grow', tier: 3, xp: 100, name: 'The Presentation',  description: 'Research a topic and present it to your family (5+ min)' },
+  { id: 'g11', tree: 'grow', tier: 3, xp: 100, name: 'Teach to Learn',    description: 'Learn something hard enough to teach it to someone else' },
+  { id: 'g12', tree: 'grow', tier: 3, xp: 100, name: '30-Day Read',       description: 'Read every day for 30 days straight' },
+
+  // ── EXPLORE ─────────────────────────────────────────────
+  { id: 'e1',  tree: 'explore', tier: 1, xp: 25,  name: 'Nature Hunt',          description: 'Find and identify 5 plants, bugs, or animals near home' },
+  { id: 'e2',  tree: 'explore', tier: 1, xp: 25,  name: 'New Route',            description: 'Walk or bike a route you\'ve never taken' },
+  { id: 'e3',  tree: 'explore', tier: 1, xp: 25,  name: 'Taste Test',           description: 'Try a food you\'ve never had before' },
+  { id: 'e4',  tree: 'explore', tier: 2, xp: 50,  name: 'Map Maker',            description: 'Draw a detailed map of your neighborhood from memory' },
+  { id: 'e5',  tree: 'explore', tier: 2, xp: 50,  name: 'Photo Safari',         description: 'Take 10 photos of interesting things you find outside' },
+  { id: 'e6',  tree: 'explore', tier: 2, xp: 50,  name: 'Hidden Spot',          description: 'Find a place near your home you\'ve never been to' },
+  { id: 'e7',  tree: 'explore', tier: 2, xp: 50,  name: 'Local Expert',         description: 'Visit a local business and learn how it works' },
+  { id: 'e8',  tree: 'explore', tier: 2, xp: 50,  name: 'Night Watch',          description: 'Go outside after dark and observe. Stars, sounds, animals.' },
+  { id: 'e9',  tree: 'explore', tier: 3, xp: 100, name: 'Day Trip Planner',     description: 'Plan a full day trip: route, timing, budget, packing' },
+  { id: 'e10', tree: 'explore', tier: 3, xp: 100, name: 'Neighborhood Reporter',description: 'Interview 3 neighbors and write about what you learned' },
+  { id: 'e11', tree: 'explore', tier: 3, xp: 100, name: 'Solo Navigation',      description: 'Navigate somewhere new using only a paper map' },
+  { id: 'e12', tree: 'explore', tier: 3, xp: 100, name: 'Documentary',          description: 'Explore a place and make a video documenting what you find' },
+
+  // ── CONNECT ─────────────────────────────────────────────
+  { id: 'n1',  tree: 'connect', tier: 1, xp: 25,  name: 'Kindness Drop',     description: 'Do something kind for someone without being asked' },
+  { id: 'n2',  tree: 'connect', tier: 1, xp: 25,  name: 'The Letter',        description: 'Write a real letter or card to someone you care about' },
+  { id: 'n3',  tree: 'connect', tier: 1, xp: 25,  name: 'Listener',          description: 'Have a 10-minute conversation where you only ask questions' },
+  { id: 'n4',  tree: 'connect', tier: 2, xp: 50,  name: 'Game Night',        description: 'Organize a board game or card game with family or friends' },
+  { id: 'n5',  tree: 'connect', tier: 2, xp: 50,  name: "Helper's Quest",    description: 'Find someone who needs help and help them' },
+  { id: 'n6',  tree: 'connect', tier: 2, xp: 50,  name: 'Memory Keeper',     description: 'Interview a family member about their childhood. Record it.' },
+  { id: 'n7',  tree: 'connect', tier: 2, xp: 50,  name: 'Pen Pal',           description: 'Start a written exchange with someone far away' },
+  { id: 'n8',  tree: 'connect', tier: 2, xp: 50,  name: 'Team Builder',      description: 'Include someone usually left out in an activity' },
+  { id: 'n9',  tree: 'connect', tier: 3, xp: 100, name: 'Community Project',  description: 'Organize a project that helps your neighborhood' },
+  { id: 'n10', tree: 'connect', tier: 3, xp: 100, name: 'Family History',     description: 'Research your family tree. Talk to relatives. Document it.' },
+  { id: 'n11', tree: 'connect', tier: 3, xp: 100, name: 'Mentorship',         description: 'Teach a younger kid something consistently over a week' },
+  { id: 'n12', tree: 'connect', tier: 3, xp: 100, name: 'The Gathering',      description: 'Plan and host an event for friends or family' },
+];
