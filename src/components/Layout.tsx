@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type Tab = 'home' | 'launch' | 'quests' | 'progress' | 'debrief';
+export type Tab = 'home' | 'launch' | 'quests' | 'rewards' | 'progress' | 'debrief';
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,11 +10,12 @@ interface LayoutProps {
 }
 
 const TABS: { id: Tab; label: string; emoji: string }[] = [
-  { id: 'home',     label: 'Home',     emoji: '🏠' },
-  { id: 'launch',   label: 'Launch',   emoji: '🚀' },
-  { id: 'quests',   label: 'Quests',   emoji: '🎯' },
-  { id: 'progress', label: 'Progress', emoji: '📊' },
-  { id: 'debrief',  label: 'Debrief',  emoji: '📝' },
+  { id: 'home',     label: 'Home',    emoji: '🏠' },
+  { id: 'launch',   label: 'Launch',  emoji: '🚀' },
+  { id: 'quests',   label: 'Quests',  emoji: '🎯' },
+  { id: 'rewards',  label: 'Rewards', emoji: '🎁' },
+  { id: 'progress', label: 'Stats',   emoji: '📊' },
+  { id: 'debrief',  label: 'Debrief', emoji: '📝' },
 ];
 
 export default function Layout({ children, currentTab, onTabChange, playerName }: LayoutProps) {
@@ -43,14 +44,12 @@ export default function Layout({ children, currentTab, onTabChange, playerName }
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`flex flex-col items-center py-2 px-3 min-w-[56px] transition-colors ${
-                currentTab === tab.id
-                  ? 'text-gray-900'
-                  : 'text-gray-400'
+              className={`flex flex-col items-center py-2 px-1 flex-1 transition-colors ${
+                currentTab === tab.id ? 'text-gray-900' : 'text-gray-400'
               }`}
             >
-              <span className="text-xl leading-none">{tab.emoji}</span>
-              <span className={`text-[10px] mt-0.5 font-medium ${
+              <span className="text-lg leading-none">{tab.emoji}</span>
+              <span className={`text-[9px] mt-0.5 font-medium ${
                 currentTab === tab.id ? 'text-gray-900' : 'text-gray-400'
               }`}>
                 {tab.label}

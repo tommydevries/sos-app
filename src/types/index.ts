@@ -59,12 +59,50 @@ export interface PlayerProfile {
   createdAt: string;
 }
 
+// ── Rewards ──────────────────────────────────────────────────────────────────
+
+export type RewardCategory = 'screentime' | 'experience' | 'privilege' | 'money' | 'item';
+
+export interface ActiveReward {
+  id: string;
+  emoji: string;
+  name: string;
+  category: RewardCategory;
+  xpRequired: number;
+  isCustom?: boolean;
+}
+
+export interface RewardClaim {
+  id: string;
+  rewardId: string;
+  rewardName: string;
+  rewardEmoji: string;
+  claimedAt: string; // ISO datetime
+}
+
+export interface FamilySettings {
+  parentPin: string;              // '' = not set
+  activeRewards: ActiveReward[];
+  pinnedRewardId: string | null;
+  claimedRewards: RewardClaim[];
+}
+
+export const DEFAULT_FAMILY_SETTINGS: FamilySettings = {
+  parentPin: '',
+  activeRewards: [],
+  pinnedRewardId: null,
+  claimedRewards: [],
+};
+
+// ── Player State ─────────────────────────────────────────────────────────────
+
 export interface PlayerState {
   profile: PlayerProfile | null;
   questCompletions: QuestCompletion[];
   morningLaunches: MorningLaunchCompletion[];
   debriefs: DebriefEntry[];
   customQuests: Quest[];
+  familySettings: FamilySettings;
 }
 
 export const SKILL_TREE_META: Record<SkillTree, { label: string; emoji: string; color: string; lightColor: string }> = {

@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { PlayerState, PlayerProfile, QuestCompletion, MorningLaunchCompletion, DebriefEntry, Quest, SkillTree } from '../types';
+import type { PlayerState, PlayerProfile, QuestCompletion, MorningLaunchCompletion, DebriefEntry, Quest, SkillTree, FamilySettings, ActiveReward, RewardClaim } from '../types';
+import { DEFAULT_FAMILY_SETTINGS } from '../types';
 import { QUESTS } from '../data/quests';
 import { MORNING_LAUNCH_XP, STREAK_BONUS_PER_DAY, STREAK_BONUS_CAP } from '../data/morningLaunch';
 
@@ -10,7 +11,12 @@ const BALANCE_BONUS = 50;
 function loadState(): PlayerState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Backward compat: add familySettings if missing
+      if (!parsed.familySettings) parsed.familySettings = { ...DEFAULT_FAMILY_SETTINGS };
+      return parsed;
+    }
   } catch {}
   return {
     profile: null,
@@ -18,6 +24,7 @@ function loadState(): PlayerState {
     morningLaunches: [],
     debriefs: [],
     customQuests: [],
+    familySettings: { ...DEFAULT_FAMILY_SETTINGS },
   };
 }
 
@@ -197,6 +204,41 @@ export function useStore() {
     };
   }, [state, allQuests]);
 
+  // ── Family / Rewards ──
+  const setFamilySettings = useCallback((settings: FamilySettings) => {
+    update(s => ({ ...s, familySettings: settings }));
+  }, [update]);
+
+  const setActiveRewards = useCallback((rewards: ActiveReward[]) => {
+    update(s => ({ ...s, familySettings: { ...s.familySettings, activeRewards: rewards } }));
+  }, [update]);
+
+  const setPinnedReward = useCallback((id: string | null) => {
+    update(s => ({ ...s, familySettings: { ...s.familySettings, pinnedRewardId: id } }));
+  }, [update]);
+
+  const claimReward = useCallback((rewardId: string) => {
+    update(s => {
+      const reward = s.familySettings.activeRewards.find(r => r.id === rewardId);
+      if (!reward) return s;
+      const claim: RewardClaim = {
+        id: Date.now().toString(),
+        rewardId,
+        rewardName: reward.name,
+        rewardEmoji: reward.emoji,
+        claimedAt: new Date().toISOString(),
+      };
+      return {
+        ...s,
+        familySettings: {
+          ...s.familySettings,
+          claimedRewards: [...s.familySettings.claimedRewards, claim],
+          pinnedRewardId: null, // clear goal after claim
+        },
+      };
+    });
+  }, [update]);
+
   const resetAll = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setState({
@@ -205,6 +247,7 @@ export function useStore() {
       morningLaunches: [],
       debriefs: [],
       customQuests: [],
+      familySettings: { ...DEFAULT_FAMILY_SETTINGS },
     });
   }, []);
 
@@ -220,6 +263,10 @@ export function useStore() {
     getQuestCompletionsToday,
     submitDebrief,
     getTodayDebrief,
+    setFamilySettings,
+    setActiveRewards,
+    setPinnedReward,
+    claimReward,
     resetAll,
   };
 }

@@ -7,6 +7,7 @@ import Walkthrough from './components/Walkthrough';
 import Home from './pages/Home';
 import MorningLaunch from './pages/MorningLaunch';
 import Quests from './pages/Quests';
+import Rewards from './pages/Rewards';
 import Progress from './pages/Progress';
 import Debrief from './pages/Debrief';
 
@@ -41,6 +42,8 @@ export default function App() {
   const todayLaunch = store.getTodayLaunch();
   const todayCompletions = store.getQuestCompletionsToday();
   const todayDebrief = store.getTodayDebrief();
+  const { familySettings } = store.state;
+  const pinnedReward = familySettings.activeRewards.find(r => r.id === familySettings.pinnedRewardId) ?? null;
 
   const renderPage = () => {
     switch (currentTab) {
@@ -55,6 +58,7 @@ export default function App() {
             questsToday={todayCompletions.length}
             debriefDoneToday={!!todayDebrief}
             thisWeekTrees={store.stats.thisWeekTrees}
+            pinnedReward={pinnedReward}
             onNavigate={setCurrentTab}
           />
         );
@@ -74,6 +78,17 @@ export default function App() {
             todayCompletions={todayCompletions}
             onComplete={store.completeQuest}
             onAddCustom={store.addCustomQuest}
+          />
+        );
+      case 'rewards':
+        return (
+          <Rewards
+            totalXp={store.stats.totalXp}
+            familySettings={familySettings}
+            onSetActiveRewards={store.setActiveRewards}
+            onSetPinned={store.setPinnedReward}
+            onClaim={store.claimReward}
+            onSaveFamilySettings={store.setFamilySettings}
           />
         );
       case 'progress':

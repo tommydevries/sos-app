@@ -1,7 +1,7 @@
 import XPBar from '../components/XPBar';
 import TreeBadge from '../components/TreeBadge';
 import { getRank } from '../data/ranks';
-import type { SkillTree } from '../types';
+import type { SkillTree, ActiveReward } from '../types';
 import { SKILL_TREE_META } from '../types';
 import type { Tab } from '../components/Layout';
 
@@ -14,13 +14,14 @@ interface HomeProps {
   questsToday: number;
   debriefDoneToday: boolean;
   thisWeekTrees: Set<SkillTree>;
+  pinnedReward: ActiveReward | null;
   onNavigate: (tab: Tab) => void;
 }
 
 export default function Home({
   name, totalXp, treeXp, currentStreak,
   launchDoneToday, questsToday, debriefDoneToday,
-  thisWeekTrees, onNavigate,
+  thisWeekTrees, pinnedReward, onNavigate,
 }: HomeProps) {
   const rank = getRank(totalXp);
   const trees: SkillTree[] = ['create', 'move', 'grow', 'explore', 'connect'];
@@ -131,6 +132,41 @@ export default function Home({
           </button>
         </div>
       </div>
+
+      {/* Working Toward (pinned reward) */}
+      {pinnedReward && (
+        <button
+          onClick={() => onNavigate('rewards')}
+          className="w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-slide-up text-left"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">{pinnedReward.emoji}</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Working Toward</p>
+              <p className="font-bold text-gray-900 text-sm truncate">{pinnedReward.name}</p>
+              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mt-1.5">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{
+                    width: `${Math.min((totalXp / pinnedReward.xpRequired) * 100, 100)}%`,
+                    backgroundColor: totalXp >= pinnedReward.xpRequired ? '#22c55e' : '#f59e0b',
+                  }}
+                />
+              </div>
+            </div>
+            <div className="text-right shrink-0">
+              {totalXp >= pinnedReward.xpRequired ? (
+                <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">Claim!</span>
+              ) : (
+                <p className="text-xs font-bold text-gray-500">
+                  {Math.min(totalXp, pinnedReward.xpRequired).toLocaleString()}<br/>
+                  <span className="text-gray-300">/ {pinnedReward.xpRequired.toLocaleString()}</span>
+                </p>
+              )}
+            </div>
+          </div>
+        </button>
+      )}
 
       {/* Skill Trees */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 animate-slide-up">
