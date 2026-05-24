@@ -103,6 +103,7 @@ export interface PlayerState {
   debriefs: DebriefEntry[];
   customQuests: Quest[];
   familySettings: FamilySettings;
+  familyCode?: string; // set after linking to a family
 }
 
 export const SKILL_TREE_META: Record<SkillTree, { label: string; emoji: string; color: string; lightColor: string }> = {

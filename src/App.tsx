@@ -1,21 +1,49 @@
 import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
 import { useStore } from './store/useStore';
 import Layout from './components/Layout';
 import type { Tab } from './components/Layout';
-import Setup from './pages/Setup';
-import Walkthrough from './components/Walkthrough';
-import Home from './pages/Home';
+
+// Auth screens
+import Landing      from './pages/auth/Landing';
+import ParentAuth   from './pages/auth/ParentAuth';
+import KidJoin      from './pages/auth/KidJoin';
+
+// Parent
+import ParentDashboard from './pages/ParentDashboard';
+
+// Kid app
+import Setup        from './pages/Setup';
+import Walkthrough  from './components/Walkthrough';
+import Home         from './pages/Home';
 import MorningLaunch from './pages/MorningLaunch';
-import Quests from './pages/Quests';
-import Rewards from './pages/Rewards';
-import Progress from './pages/Progress';
-import Debrief from './pages/Debrief';
+import Quests       from './pages/Quests';
+import Rewards      from './pages/Rewards';
+import Progress     from './pages/Progress';
+import Debrief      from './pages/Debrief';
 
-export default function App() {
-  const [currentTab, setCurrentTab] = useState<Tab>('home');
+// ── Auth shell ────────────────────────────────────────────────────────────────
+function AuthShell() {
+  const [screen, setScreen] = useState<'landing' | 'parent' | 'kid'>('landing');
+  if (screen === 'parent') return <ParentAuth onBack={() => setScreen('landing')} />;
+  if (screen === 'kid')    return <KidJoin    onBack={() => setScreen('landing')} />;
+  return (
+    <Landing
+      onChooseParent={() => setScreen('parent')}
+      onChooseKid={() => setScreen('kid')}
+    />
+  );
+}
+
+// ── Kid app ───────────────────────────────────────────────────────────────────
+function KidApp() {
+  const { user, familyCode } = useAuth();
+  const store = useStore({ uid: user?.uid, familyCode: familyCode ?? undefined });
+
+  const [currentTab, setCurrentTab]       = useState<Tab>('home');
   const [showWalkthrough, setShowWalkthrough] = useState(false);
-  const store = useStore();
 
+  // First-time name setup (if they joined without going through Setup)
   if (!store.state.profile) {
     return (
       <Setup
@@ -31,17 +59,14 @@ export default function App() {
     return (
       <Walkthrough
         name={store.state.profile.name}
-        onComplete={() => {
-          setShowWalkthrough(false);
-          setCurrentTab('launch');
-        }}
+        onComplete={() => { setShowWalkthrough(false); setCurrentTab('launch'); }}
       />
     );
   }
 
-  const todayLaunch = store.getTodayLaunch();
+  const todayLaunch      = store.getTodayLaunch();
   const todayCompletions = store.getQuestCompletionsToday();
-  const todayDebrief = store.getTodayDebrief();
+  const todayDebrief     = store.getTodayDebrief();
   const { familySettings } = store.state;
   const pinnedReward = familySettings.activeRewards.find(r => r.id === familySettings.pinnedRewardId) ?? null;
 
@@ -115,12 +140,25 @@ export default function App() {
   };
 
   return (
-    <Layout
-      currentTab={currentTab}
-      onTabChange={setCurrentTab}
-      playerName={store.state.profile.name}
-    >
+    <Layout currentTab={currentTab} onTabChange={setCurrentTab} playerName={store.state.profile.name}>
       {renderPage()}
     </Layout>
   );
+}
+
+// ── Root ──────────────────────────────────────────────────────────────────────
+export default function App() {
+  const { user, role, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-400 text-lg">🧭</p>
+      </div>
+    );
+  }
+
+  if (!user || !role) return <AuthShell />;
+  if (role === 'parent')  return <ParentDashboard />;
+  return <KidApp />;
 }
